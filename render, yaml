@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: enterprise-code-engine
+    env: docker
+    plan: free
+    region: oregon   # or change to closest region: frankfurt, ohio, singapore, etc.
+    branch: main
+    healthCheckPath: /v1/execute
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
