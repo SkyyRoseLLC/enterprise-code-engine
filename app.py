@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+\from fastapi import FastAPI
 from pydantic import BaseModel
 import subprocess
 import tempfile
@@ -15,9 +15,6 @@ class CodeRequest(BaseModel):
 def run_code(request: CodeRequest):
     runners = {
         "python": ["python3"],
-        "go": ["go", "run"],
-        "java": ["javac"],
-        "csharp": ["dotnet", "script"]
     }
 
     if request.language not in runners:
