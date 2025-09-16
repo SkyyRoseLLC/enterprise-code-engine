@@ -1,23 +1,24 @@
 FROM python:3.11-slim
 
-# Install system dependencies
+# System deps
 RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Set workdir
+# App dir
 WORKDIR /app
 
-# Copy requirements and install
+# Python deps
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy app code
+# App code + start script
 COPY app.py .
+COPY start.sh .
 
-# Expose port
+# Expose app port (Render will still inject $PORT)
 EXPOSE 10000
 
-# Run FastAPI app
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "10000"]
+# Use shell form so ${PORT} expands
+CMD ./start.sh
 
