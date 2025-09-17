@@ -34,7 +34,7 @@ def run_code(request: CodeRequest):
         try:
             result = subprocess.run(
                 runners[request.language] + [tmp.name],
-                input=request.input.encode(),
+                input=(request.input or "").encode(),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 timeout=5
@@ -47,5 +47,9 @@ def run_code(request: CodeRequest):
         except Exception as e:
             return {"error": str(e)}
         finally:
-            os.unlink(tmp.name)
+            try:
+                os.unlink(tmp.name)
+            except Exception:
+                pass
+
 
